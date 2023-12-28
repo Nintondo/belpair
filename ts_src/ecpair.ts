@@ -1,8 +1,8 @@
 import { Network } from './networks';
 import * as networks from './networks';
 import * as types from './types';
-import * as randomBytes from 'randombytes';
 import * as wif from 'wif';
+import { randomBytes } from '@noble/hashes/utils';
 export { networks };
 
 const isOptions = types.typeforce.maybe(
@@ -145,7 +145,7 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
   function makeRandom(options?: ECPairOptions): ECPairInterface {
     types.typeforce(isOptions, options);
     if (options === undefined) options = {};
-    const rng = options.rng || randomBytes;
+    const rng = options.rng || ((v) => Buffer.from(randomBytes(v)));
 
     let d;
     do {
