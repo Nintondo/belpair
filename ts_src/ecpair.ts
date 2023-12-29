@@ -199,16 +199,9 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
       return this.tweakFromPublicKey(t);
     }
 
-    sign(hash: Buffer, lowR?: boolean): Buffer {
+    sign(hash: Buffer, _lowR?: boolean): Buffer {
       if (!this.__D) throw new Error('Missing private key');
-      if (lowR === undefined) lowR = this.lowR;
-      if (lowR === false) {
-        return Buffer.from(ecc.sign(hash, this.__D));
-      } else {
-        const extraData = randomBytes(32);
-        let sig = ecc.sign(hash, this.__D, extraData);
-        return Buffer.from(sig);
-      }
+      return Buffer.from(ecc.sign(hash, this.__D, randomBytes(32)));
     }
 
     signSchnorr(hash: Buffer): Buffer {
