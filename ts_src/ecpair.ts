@@ -182,11 +182,7 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
 
     get publicKey(): Buffer {
       if (!this.__Q) {
-        // It is not possible for both `__Q` and `__D` to be `undefined` at the same time.
-        // The factory methods guard for this.
         const p = ecc.pointFromScalar(this.__D!, this.compressed)!;
-        // It is not possible for `p` to be null.
-        // `fromPrivateKey()` checks that `__D` is a valid scalar.
         this.__Q = Buffer.from(p);
       }
 
@@ -209,16 +205,8 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
       if (lowR === false) {
         return Buffer.from(ecc.sign(hash, this.__D));
       } else {
-        let sig = ecc.sign(hash, this.__D);
-        const extraData = Buffer.alloc(32, 0);
-        let counter = 0;
-        // if first try is lowR, skip the loop
-        // for second try and on, add extra entropy counting up
-        while (sig[0] > 0x7f) {
-          counter++;
-          extraData.writeUIntLE(counter, 0, 6);
-          sig = ecc.sign(hash, this.__D, extraData);
-        }
+        const extraData = randomBytes(32);
+        let sig = ecc.sign(hash, this.__D, extraData);
         return Buffer.from(sig);
       }
     }
@@ -227,7 +215,9 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
       if (!this.privateKey) throw new Error('Missing private key');
       if (!ecc.signSchnorr)
         throw new Error('signSchnorr not supported by ecc library');
-      return Buffer.from(ecc.signSchnorr(hash, this.privateKey));
+      return Buffer.from(
+        ecc.signSchnorr(hash, this.privateKey, randomBytes(32)),
+      );
     }
 
     verify(hash: Buffer, signature: Buffer): boolean {
