@@ -1,6 +1,6 @@
 {
   "name": "belpair",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Client-side Bitcoin JavaScript library ECPair",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -49,7 +49,7 @@
   "dependencies": {
     "@noble/hashes": "^1.3.3",
     "typeforce": "^1.18.0",
-    "wif": "^2.0.6"
+    "wif": "^4.0.0"
   },
   "devDependencies": {
     "@types/create-hash": "^1.2.2",
