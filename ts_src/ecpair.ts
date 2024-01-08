@@ -136,7 +136,7 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
         throw new Error('Invalid network version');
     }
 
-    return fromPrivateKey(decoded.privateKey, {
+    return fromPrivateKey(Buffer.from(decoded.privateKey), {
       compressed: decoded.compressed,
       network: network as Network,
     });

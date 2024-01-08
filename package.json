@@ -1,6 +1,6 @@
 {
   "name": "belpair",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Client-side Bitcoin JavaScript library ECPair",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -56,7 +56,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^16.11.1",
     "@types/proxyquire": "^1.3.28",
-    "@types/wif": "^2.0.2",
+    "@types/wif": "^2.0.5",
     "bip39": "^3.0.2",
     "bip65": "^1.0.1",
     "bip68": "^1.0.3",
