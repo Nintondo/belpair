@@ -1,9 +1,7 @@
-import { Network } from './networks';
-import * as networks from './networks';
 import * as types from './types';
 import * as wif from 'wif';
 import { randomBytes } from '@noble/hashes/utils';
-export { networks };
+import { Network, networks } from 'belcoinjs-lib';
 
 const isOptions = types.typeforce.maybe(
   types.typeforce.compile({
@@ -130,7 +128,7 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
 
       // otherwise, assume a network object (or default to bitcoin)
     } else {
-      network = network || networks.bitcoin;
+      network = network || networks.bellcoin;
 
       if (version !== (network as Network).wif)
         throw new Error('Invalid network version');
@@ -170,7 +168,7 @@ export function ECPairFactory(ecc: TinySecp256k1Interface): ECPairAPI {
       if (options === undefined) options = {};
       this.compressed =
         options.compressed === undefined ? true : options.compressed;
-      this.network = options.network || networks.bitcoin;
+      this.network = options.network || networks.bellcoin;
 
       if (__Q !== undefined)
         this.__Q = Buffer.from(ecc.pointCompress(__Q, this.compressed));
